@@ -19,6 +19,7 @@
   "homepage": "https://github.com/c-base/termux-barstatus#readme",
   "dependencies": {
     "coffee-script": "^1.10.0",
-    "mqtt": "^1.14.0"
+    "mqtt": "^1.14.0",
+    "shell-escape": "^0.2.0"
   }
 }

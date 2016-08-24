@@ -1,6 +1,7 @@
 config = require '../config.coffee'
 mqtt = require 'mqtt'
 {exec} = require 'child_process'
+escape = require 'shell-escape'
 
 exports.connect = (callback) ->
   client = mqtt.connect config.broker
@@ -14,7 +15,7 @@ exports.connect = (callback) ->
     callback = null
 
 main = ->
-  previousState = 'closed'
+  previousState = null #'closed'
   exports.connect (err, client) ->
     if err
       console.error err
@@ -25,7 +26,14 @@ main = ->
       return if message is previousState
       console.log "Bar is #{message}"
       previousState = message
-      exec "#{config.command} -c \"Bar is #{message}\" -t \"c-base\"", (err) ->
+      exec escape [
+        config.command
+        '-c'
+        "Bar is #{message}"
+        '-t'
+        'c-base'
+      ]
+      , (err) ->
         if err
           console.error err
           process.exit 1
